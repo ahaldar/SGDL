@@ -5,20 +5,19 @@
 This library provides a simple C++ framework for the implementation of contour tree comparison algorithms.
 
 It uses the Graph Modelling Language (GML) to represent and store graph information. It uses Graph Template Library (GTL) for basic graph manipulation and computation:
-
 [GML and GTL](http://www.fim.uni-passau.de/index.php?id=17297&L=1)
 
 It uses Graphviz to display graphs visually:
-
 [Graphviz](http://www.graphviz.org/)
 
 ##Prerequisites
 
 The code in this library has been developed and tested using:
-Ubuntu 14.04 LTS
-g++ version 4.8.4
-Graphviz version 2.36.0
-GTL version 1.2.4
+* Ubuntu 14.04 LTS
+* g++ version 4.8.4
+* Graphviz version 2.36.0
+* GTL version 1.2.4
+
 Compilation should be possible on any recent version of Ubuntu GNU Linux and g++.
 
 ##Installation
