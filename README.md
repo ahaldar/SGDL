@@ -1,2 +1,6 @@
-# SGDL
-Simple Graph Decomposition Library
+#Simple Graph Decomposition Library (SGDL)
+##Description
+
+##Prerequisites
+
+##Installation
