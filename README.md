@@ -3,9 +3,13 @@
 ##Description
 
 This library provides a simple C++ framework for the implementation of contour tree comparison algorithms.
+
 It uses the Graph Modelling Language (GML) to represent and store graph information. It uses Graph Template Library (GTL) for basic graph manipulation and computation:
+
 [GML and GTL](http://www.fim.uni-passau.de/index.php?id=17297&L=1)
+
 It uses Graphviz to display graphs visually:
+
 [Graphviz](http://www.graphviz.org/)
 
 ##Prerequisites
