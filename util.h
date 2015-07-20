@@ -23,3 +23,4 @@ int brand(int, int = 0);
 // Local variables:
 // mode: c++
 // End:
+//
