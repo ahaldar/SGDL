@@ -1,0 +1,70 @@
+*** include/GTL/edge.h~	2010-11-19 16:22:00.000000000 +0530
+--- include/GTL/edge.h	2015-07-10 12:04:04.665304846 +0530
+***************
+*** 12,17 ****
+--- 12,18 ----
+  #include <GTL/GTL.h>
+  
+  #include <list>
++ #include <iostream>
+  
+  __GTL_BEGIN_NAMESPACE
+   
+*** include/GTL/node.h~	2010-11-19 16:22:00.000000000 +0530
+--- include/GTL/node.h	2015-07-10 11:55:49.286848398 +0530
+***************
+*** 17,22 ****
+--- 17,28 ----
+  __GTL_BEGIN_NAMESPACE
+  
+  //--------------------------------------------------------------------------
++ //   For declaring return type of node::container().
++ //--------------------------------------------------------------------------
++ 
++ class graph;
++ 
++ //--------------------------------------------------------------------------
+  //   For MSVC 5.0 node.h has to be included before {node,edge}_data.h.
+  //   So we only declare node_data here
+  //--------------------------------------------------------------------------
+***************
+*** 69,74 ****
+--- 75,85 ----
+      node();
+  
+      /**
++      * Returns reference to the container graph of the node.
++      */
++     graph& container() const;
++     
++     /**
+       * Returns the degree of the node, i. e.
+       * @ref node#outdeg + @ref node#indeg .
+       */
+*** src/graph.cpp~	2010-11-19 16:21:21.000000000 +0530
+--- src/graph.cpp	2015-07-10 12:05:21.365685183 +0530
+***************
+*** 16,21 ****
+--- 16,22 ----
+  
+  #include <cassert>
+  #include <cstdio>
++ #include <cstring>
+  
+  #include <algorithm>
+  #include <queue>
+*** src/node.cpp~	2015-07-20 20:08:46.197872552 +0530
+--- src/node.cpp	2015-07-10 12:05:51.545834838 +0530
+***************
+*** 32,37 ****
+--- 32,41 ----
+  {
+  }
+  
++ graph& node::container() const {
++   return *(data->owner);
++ }
++ 
+  GTL_EXTERN ostream& operator<< (ostream& os, const node& n) {
+      if (n != node()) {
+  	return os << "[" << n.id() << "]";
