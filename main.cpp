@@ -6,8 +6,8 @@
 #include <ctime>
 
 void usage(char* argv) {
-  cout << "Usage: " << argv << " <N> <W>" << endl;
-  cout << "<N> : number of nodes, <W> : maximum weight" << endl;
+  cout << "Usage: " << argv << " <N> <W> <F> " << endl;
+  cout << "<N> : number of nodes, <W> : maximum weight, <F> : file name" << endl;
   exit(0);
 }
 
