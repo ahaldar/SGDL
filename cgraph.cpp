@@ -127,7 +127,8 @@ node CGraph::randomize(int nnodes, int nedges) {
       while (ie--) eb++;
       setval(*eb, brand(nmax));
     }
-  } else { // new empty graph, add NNODES random nodes and NEDGES random edges
+  }
+  else { // new empty graph, add NNODES random nodes and NEDGES random edges
     if (nnodes <= 0) nnodes = 1;
     while (nnodes--) new_node(brand(nmax));
     if (nedges < 0) nedges = 0;
@@ -224,7 +225,7 @@ bool CGraph::compare(const node n1, const node n2, const CGraph& g) const {
   node::in_edges_iterator ieb1 = n1.in_edges_begin();
   node::in_edges_iterator iee1 = n1.in_edges_end();
   node::in_edges_iterator ieb2 = n2.in_edges_begin();
-  while (ieb1 != iee1) {
+  while (ieb1 != iee1) {	// compare all inedges
     if (!compare(*ieb1, *ieb2, g)) {
       debug(n1, n2, g, "(In edge mismatch)", cout);
       return false;
@@ -235,7 +236,7 @@ bool CGraph::compare(const node n1, const node n2, const CGraph& g) const {
   node::out_edges_iterator oeb1 = n1.out_edges_begin();
   node::out_edges_iterator oee1 = n1.out_edges_end();
   node::out_edges_iterator oeb2 = n2.out_edges_begin();
-  while (oeb1 != oee1) {
+  while (oeb1 != oee1) {	// compare all outedges
     if (!compare(*oeb1, *oeb2, g)) {
       debug(n1, n2, g, "(Out edge mismatch)", cout);
       return false;
@@ -264,7 +265,7 @@ bool CGraph::compare(const CGraph& g, const bool comparegdata) const {
   graph::node_iterator nb1 = nodes_begin();
   graph::node_iterator ne1 = nodes_end();
   graph::node_iterator nb2 = g.nodes_begin();
-  while (nb1 != ne1) {
+  while (nb1 != ne1) {		// compare all nodes
     debug(*nb1, *nb2, g, "Comparing...", cout);
     if (!compare(*nb1, *nb2, g)) {
       debug(*nb1, *nb2, g, "(Node mismatch)", cout);

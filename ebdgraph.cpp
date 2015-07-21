@@ -19,13 +19,13 @@ void EBDGraph::build(CTree& ct, node n) {
   node nn;
   forall_out_edges(e, n) {
     if (e.target().outdeg() == 0) {
-      n1 = new_node(n, e.target(), 0);
+      n1 = new_node(n, e.target(), 0); // new EBDG node for contour tree edge to local maxima
       setweight(n1, ct[endnode(n1)] - ct[startnode(n1)]);
     }
     else {
-      n1 = new_node(n, ct.bend(e.target()), 0);
+      n1 = new_node(n, ct.bend(e.target()), 0); // new EBDG node
       setweight(n1, ct[endnode(n1)] - ct[startnode(n1)]);
-      build(ct, e.target());
+      build(ct, e.target());	// recursive call
     }
   }
 }
@@ -39,7 +39,7 @@ void EBDGraph::markup(CTree& ct) {
     forall_nodes(n, (*this)) {
       forall_out_edges(e, n) {
 	if (level(e.target()) == level(n)) {
-	  setlevel(n, level(n) + 1);
+	  setlevel(n, level(n) + 1); // set level data from level of EBDG child nodes
 	  flag = 1;
 	}
       }
@@ -129,8 +129,8 @@ void EBDGraph::build(CTree& ct) {
   //set new level when edge from node max(child node+1, current level)
   node n1, n2;
   edge e;
-  build(ct, ct.root());
-  forall_nodes(n2, (*this)) {
+  build(ct, ct.root());		// build EBDG nodes
+  forall_nodes(n2, (*this)) {	// check all nodes to build EBDG edges
     if (ct.bend(startnode(n2)) != (ct.bend(endnode(n2)))) {
       forall_nodes(n1, (*this)) {
 	if ((ct.bend(startnode(n2)) == ct.bend(endnode(n1))) 
@@ -144,7 +144,7 @@ void EBDGraph::build(CTree& ct) {
       }
     }
   }
-  markup(ct);
+  markup(ct);			// assign levels to EBDG nodes
 }
 
 // Local variables:

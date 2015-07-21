@@ -30,25 +30,14 @@ int main(int argc, char** argv) {
   check_args(argc, argv, nnodes, maxwt, fname);
   cout << "Using nodes " << nnodes << " maxwt " << maxwt
        << " file " << fname << endl;
-
-  //CGraph G;
-  //G.randomize(nnodes, maxwt);
-  //cout << G;
-  //G.dotf(fname + "-cgraph.dot");
-  //string comm = "xdot " + fname + "-cgraph.dot";
-  //system(comm.c_str());
-
-  //clock_t c;
-  //c = clock();
-
+ 
   CTree t("My Tree");
   t.randomize(nnodes, maxwt);
   t.markup(t.root());
   t.dotf(fname + "-ctree.dot");
   cout << t;
 
-  //cout << "Randomize time: " << (float)(clock() - c)/CLOCKS_PER_SEC << endl;
-
+  //clock_t c;
   //c = clock();
 
   EBDGraph ebdg("My EBDG");
@@ -60,6 +49,7 @@ int main(int argc, char** argv) {
 
   string comm = "xdot " + fname + "-ctree.dot & xdot " + fname + "-ebdg.dot";
   system(comm.c_str());
+
   exit(0);
 }
 

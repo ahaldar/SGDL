@@ -13,7 +13,7 @@ int CTree::setval(node n, int val) {
   int oval = (*this)[n];
   edge e;
   CGraph::setval(n, val);
-  forall_out_edges(e, n) {
+  forall_out_edges(e, n) {	// set child node and outedge data when parent node data is changed
     setval(e.target(), val + (*this)[e]);
   }
   return oval;
@@ -22,7 +22,7 @@ int CTree::setval(node n, int val) {
 int CTree::setval(edge e, int val) {
   int oval = (*this)[e];
   CGraph::setval(e, val);
-  setval(e.target(), (*this)[e.source()] + val);
+  setval(e.target(), (*this)[e.source()] + val); // set child node and outedge data when parent edge data is changed
   return oval;
 }
 
@@ -46,7 +46,8 @@ node CTree::randomize(int nnodes, int ewmax, int ewmin, int nscalar) {
   if (!nscalar) {		// at root
     if (nnodes & 1) {		// if nnodes odd, make even
       return randomize(nnodes + 1, ewmax, ewmin, nscalar);
-    } else {			// nnodes even, generate tree
+    }
+    else {			// nnodes even, generate tree
       ew = brand(ewmax, ewmin);
       root = new_node(nscalar);
       n = new_node(nscalar + ew);
@@ -60,7 +61,8 @@ node CTree::randomize(int nnodes, int ewmax, int ewmin, int nscalar) {
 	new_edge(n, randomize(nnodes - lnnodes, ewmax, ewmin, (*this)[n] + ew), ew);
       }
     }
-  } else { 			// not at root, guaranteed odd nnodes
+  }
+  else { 			// not at root, guaranteed odd nnodes
     root = new_node(nscalar);
     if (nnodes -= 1) {
       lnnodes = brand(nnodes);
@@ -84,14 +86,14 @@ int CTree::markup(node n) {
   edge e;
   int m = 0;
   forall_out_edges(e, n) {
-    int mc = markup(e.target());
+    int mc = markup(e.target()); // recursive call
     if (mc > m) {
-      emain[n] = e;
+      emain[n] = e;		// assign outedge data to edge_main
       m = mc;
     }
   }
-  if (m == 0) {
-    emain[n] = edge();
+  if (m == 0) {			// leaf node reached
+    emain[n] = edge();		// assign invalid edge data to edge_main
     return ((CGraph&) n.container())[n];
   } else {
     return m;
@@ -100,13 +102,13 @@ int CTree::markup(node n) {
 
 node CTree::bend(const node n) const {
   if (edge_main(n) == edge()) return n;
-  return bend(edge_main(n).target());
+  return bend(edge_main(n).target()); // recursive call upto leaf node
 }
 
 bool CTree::bend(const node n, const node nn) const {
   if (n == nn) return true;
   if (edge_main(n) == edge()) return false;
-  return bend(edge_main(n).target(), nn);
+  return bend(edge_main(n).target(), nn); // recursive check for node along bend path
 }
 
 string CTree::printbmain(const node n) const {
@@ -128,7 +130,7 @@ node CTree::perturb(int nedges, int ewmax, int ewmin) {
     while (nedges--) {
       graph::edge_iterator eb = edges_begin();
       int ie = brand(numedges);
-      while (ie--) eb++;
+      while (ie--) eb++;	// set child node and outedge data after edge data is perturbed
       setval(*eb, (*this)[*eb] + brand(ewmax, ewmin));
     }
   }
