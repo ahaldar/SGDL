@@ -35,5 +35,6 @@ The code should build without issues on any recent version of Ubuntu GNU/Linux a
   `sudo make install`
 * `cd ../SGDL`
 * `make`
-* Run example main program
+* Run example main program without arguments for usage instructions:
+  `./main`
 * Enjoy
