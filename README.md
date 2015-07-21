@@ -38,4 +38,3 @@ Compilation should be possible on any recent version of Ubuntu GNU Linux and g++
 * Run example file provided:
   `./main 10 5 out`
 * Enjoy
-* 
