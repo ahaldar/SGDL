@@ -18,23 +18,23 @@ The code in this library has been developed and tested using:
 * Graphviz version 2.36.0
 * GTL version 1.2.4
 
-Compilation should be possible on any recent version of Ubuntu GNU Linux and g++.
+The code should build without issues on any recent version of Ubuntu GNU/Linux and g++.
 
 ##Installation
 
-* Install g++
+* `sudo apt-get install g++`
 * `sudo apt-get install graphviz`
 * Download GTL from the [GTL project page](http://www.fim.uni-passau.de/fileadmin/files/lehrstuhl/brandenburg/projekte/gtl/GTL-1.2.4-lgpl.tar.gz) and extract
-* Clone SGDL repository from GitHub (provided required patch for GTL):
+* Clone SGDL repository from GitHub (includes required patch for GTL):  
   `git clone https://github.com/ahaldar/SGDL.git`
 * `cd GTL-1.2.4`
 * `patch -p0 < ../SGDL/gtl-sgdl.patch`
 * `./configure`
 * `make`
-* If make is successful then install GTL:
+* If make is successful then install GTL:  
   `sudo make install`
 * `cd ../SGDL`
 * `make`
-* Run example file provided:
-  `./main 10 5 out`
+* Run example main program without arguments for usage instructions:
+  `./main`
 * Enjoy
