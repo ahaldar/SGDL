@@ -14,25 +14,31 @@ void CGraph::debug(const node n1, const node n2, const CGraph& g,
   }
 }
 
-CGraph::CGraph(const string name) : gname(name) {}
+CGraph::CGraph(const string name) : gname(name) { }
 
-CGraph::CGraph(const CGraph& g) : graph::graph(g) {
-  node_map<node> nmap;
-  set_name(g.name());
+CGraph::CGraph(const CGraph& g) : graph(), gname(g.gname) {
+  graph::node_iterator nbs, nes;
+  graph::edge_iterator ebs, ees;
+  node_map<node> nmap(g, node());
+  node n;
+  edge e;
 
-  graph::node_iterator nbs = g.nodes_begin();
-  graph::node_iterator nes = g.nodes_end();
-  while (nbs != nes){
-    node n = new_node(g.scalar[*nbs]);
-    nmap[*nbs] = n;
-    nbs++;
+  if (g.is_directed()) {
+    make_directed();
+  }
+  else {
+    make_undirected();
   }
 
-  graph::edge_iterator ebs = g.edges_begin();
-  graph::edge_iterator ees = g.edges_end();
-  while (ebs != ees) {
-    new_edge(nmap[ebs->source()], nmap[ebs->target()], g.weight[*ebs]);
-    ebs++;
+  for (nbs = g.nodes_begin(), nes = g.nodes_end(); nbs != nes; nbs++) {
+    node n = graph::new_node();
+    nmap[*nbs] = n;
+    scalar[n] = g.scalar[*nbs];
+  }
+
+  for (ebs = g.edges_begin(), ees = g.edges_end(); ebs != ees; ebs++) {
+    e = graph::new_edge(nmap[ebs->source()], nmap[ebs->target()]);
+    weight[e] = g.weight[*ebs];
   }
 }
 
@@ -85,7 +91,7 @@ void CGraph::load(const string& fname) {
 
 string CGraph::name() const { return gname; }
 
-string CGraph::set_name(const string& nname) {
+string CGraph::rename(const string& nname) {
   string oname = gname;
   gname = nname;
   return oname;
@@ -285,8 +291,8 @@ ostream& operator<< (ostream& s, const CGraph& g) {
   s << g.name() << " [" << endl;
   forall_nodes (n, g) {
     s << "  " << n << "(" << g.print(n) << ")" << ":: ";
-    forall_adj_edges (e, n) {
-      s << edge_start << g.print(e) << edge_end << n.opposite(e) << " ";
+    forall_out_edges (e, n) {
+      s << edge_start << g.print(e) << edge_end << e.target() << " ";
     }
     s << endl;
   }
