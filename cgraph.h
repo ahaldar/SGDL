@@ -45,7 +45,7 @@ public:
 
   // Retrieve and set graph data
   string name() const;
-  string set_name(const string&);
+  string rename(const string&);
 
   int operator[] (const node) const;
   int operator[] (const edge) const;
