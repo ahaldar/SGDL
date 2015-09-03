@@ -2,24 +2,41 @@
 # Copyright (C) Aparajita Haldar
 
 COMPILER = g++
-CFLAGS   = -g -MMD -MP -Wall -Wextra -Winit-self -Wno-unused-parameter -Wfloat-equal
-LDFLAGS  =
-LIBS     = -lGTL
+CFLAGS   = -g -MMD -MP -Wall -Wextra -Wunused-parameter -Wfloat-equal -fPIC
+LDFLAGS  = -L.
+SGDL     = SGDL
+LIBS     = -l$(SGDL) -lGTL
+LIBSGDL	 = lib$(SGDL).so
 INCLUDE  = -I.
-TARGET   = main
+MAIN	 = main
 OBJDIR   = .
-SOURCES  = $(wildcard *.cpp)
-OBJECTS  = $(addprefix $(OBJDIR)/, $(SOURCES:.cpp=.o))
+SOURCES  = util.cpp cgraph.cpp ctree.cpp ebdgraph.cpp
+HEADERS  = $(SOURCES:.cpp=.h)
+OBJECTS  = $(SOURCES:.cpp=.o)
+INSTALL  = install
+PREFIX   = ../local
+RM       = rm -f
 
-all: clean $(TARGET)
+$(SGDL): $(OBJECTS)
+	$(COMPILER) $(CFALGS) -shared $(OBJECTS) -o $(LIBSGDL)
 
-$(TARGET): $(OBJECTS) $(LIBS)
-	$(COMPILER) -o $@ $^ $(CFLAGS) $(LDFLAGS) $(LIBS)
+$(MAIN): $(OBJECTS) $(LIBS) $(LIBSGDL)
+	$(COMPILER) -o $@ $(MAIN).cpp $(CFLAGS) $(LDFLAGS) $(LIBS)
 
-$(OBJDIR)/%.o: %.cpp %.h
+all: $(SGDL) $(MAIN)
+
+$(INSTALL): $(SGDL) $(HEADERS)
+	$(INSTALL) -d $(PREFIX)/lib $(PREFIX)/include/$(SGDL)
+	$(INSTALL) -t $(PREFIX)/lib $(LIBSGDL)
+	$(INSTALL) -t $(PREFIX)/include/$(SGDL) $(HEADERS)
+
+un$(INSTALL):
+	$(RM) -r $(PREFIX)/lib/$(LIBSGDL) $(PREFIX)/include/$(SGDL)
+
+%.o: %.cpp %.h
 	$(COMPILER) $(CFLAGS) $(INCLUDE) -o $@ -c $<
 
 clean:
-	rm -f $(OBJECTS) $(DEPENDS) $(TARGET) *~ *.d
+	$(RM) $(OBJECTS) $(DEPENDS) $(MAIN) $(LIBSGDL) *~ *.d main.o
 
 -include $(DEPENDS)
